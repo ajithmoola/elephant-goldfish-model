@@ -27,7 +27,12 @@ HOST = {
 SKILLS = (
     "egm-bootstrap", "egm-brainstorm", "egm-draft", "egm-drift-report",
     "egm-resolve", "egm-review", "egm-review-loop",
+    "egm-pitch", "egm-literature", "egm-story", "egm-build", "egm-screen",
 )
+REQUIRED_HOST = {
+    "claude": (),
+    "openai": tuple(f"skills/{skill}/agents/openai.yaml" for skill in SKILLS),
+}
 REQUIRED_SHARED = (
     "plugin.json", "LICENSE", "README.md", "assets/icon.svg",
     "docs/index.md", "docs/getting_started.md", "docs/harnesses.md",
@@ -38,17 +43,19 @@ REQUIRED_SHARED = (
 ) + tuple(
     f"skills/{skill}/{name}"
     for skill in SKILLS
-    for name in ("SKILL.md", "agents/openai.yaml", "assets/icon.svg")
+    for name in ("SKILL.md", "assets/icon.svg")
 ) + tuple(
     f"agents/{name}.md" for name in (
         "bootstrap_orchestrator", "codebase_details", "comprehension",
         "design_critic", "implementation_readiness", "structural", "style",
         "synthesizer", "zoom_out",
+        "research_critic", "literature_checker", "result_verifier",
+        "coding_agent",
     )
 ) + tuple(
     f"resources/document_standards/{name}-standard.md" for name in (
         "feature-spec", "heilmeier", "implementation-readiness",
-        "re-implementation", "zoom-out",
+        "re-implementation", "zoom-out", "story-doc", "evidence",
     )
 )
 
@@ -73,7 +80,7 @@ def build(root: Path, target: str, output: Path) -> tuple[Path, Path]:
         raise ValueError(f"Path outside source: {relative}")
       if path.is_file():
         files.add(relative)
-  for name in REQUIRED_SHARED + (HOST[target][0],):
+  for name in REQUIRED_SHARED + REQUIRED_HOST[target] + (HOST[target][0],):
     if Path(name) not in files:
       raise ValueError(f"Missing required file: {name}")
   manifest = json.loads((root / HOST[target][0]).read_text())

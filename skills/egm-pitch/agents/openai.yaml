@@ -1,0 +1,6 @@
+interface:
+  display_name: "EGM Pitch"
+  short_description: "Sharpen a research idea into a thesis"
+  icon_small: "./assets/icon.svg"
+  icon_large: "./assets/icon.svg"
+  brand_color: "#1B6EF3"

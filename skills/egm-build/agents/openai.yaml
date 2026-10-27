@@ -1,0 +1,6 @@
+interface:
+  display_name: "EGM Build"
+  short_description: "Write, run, and verify research code"
+  icon_small: "./assets/icon.svg"
+  icon_large: "./assets/icon.svg"
+  brand_color: "#1B6EF3"
